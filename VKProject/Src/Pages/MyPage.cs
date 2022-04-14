@@ -35,7 +35,7 @@ public class MyPage : BasePage
         GetElement(ReplaceLocator(PostLikeButtonLocator, postId)).Click();
 
     public static string GetPhotoIdFromPost(string postId) =>
-        $"photo{GetElement(ReplaceLocator(PostPhotoLocator, postId)).GetAttribute("data-photo-id")}";
+        $"{GetElement(ReplaceLocator(PostPhotoLocator, postId)).GetAttribute("href")}";
 
     public static bool IsPostVisible(string postId)
     {

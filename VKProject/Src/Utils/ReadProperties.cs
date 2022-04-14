@@ -10,7 +10,7 @@ public class ReadProperties
 {
     private static readonly Lazy<IConfiguration> Configurations = new(BuildConfiguration);
     private static readonly string Filepath =
-        $@"src{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}{ResourcesConstants.AppSettings}.{ResourcesConstants.Json}";
+        $@"src{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}{ResourcesConstants.AppSettings}.{ExtensionsConstants.Json}";
 
     public static IConfiguration Configuration => Configurations.Value;
 
@@ -23,7 +23,7 @@ public class ReadProperties
             .AddJsonFile(Filepath);
 
         var appSettingFiles = Directory.EnumerateFiles(basePath,
-            $"{ResourcesConstants.AppSettings}.*.{ResourcesConstants.Json}");
+            $"{ResourcesConstants.AppSettings}.*.{ExtensionsConstants.Json}");
 
         foreach (var appSettingFile in appSettingFiles)
         {

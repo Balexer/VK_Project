@@ -8,7 +8,7 @@ public class LoginSteps
     public static void Login(int userId)
     {
         LoginPage.ClickInButton();
-        LoginPage.SetLogin(DataBaseReader.GetUser(userId).login);
-        LoginPage.SetPassword(DataBaseReader.GetUser(userId).password);
+        LoginPage.SetLogin(DataBaseReader.GetUser(userId).Login);
+        LoginPage.SetPassword(DataBaseReader.GetUser(userId).Password);
     }
 }

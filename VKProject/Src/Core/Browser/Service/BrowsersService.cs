@@ -8,7 +8,6 @@ namespace VKProject.Core.Browser.Service;
 public static class BrowsersService
 {
     private const string Chrome = "chrome";
-
     public static IWebDriver Driver { get; set; }
 
     public static Waiters Waiters => new(Driver, BrowserSettings.Timeout);

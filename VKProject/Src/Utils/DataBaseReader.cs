@@ -19,12 +19,21 @@ public static class DataBaseReader
         using var oReader = oCmd.ExecuteReader();
         while (oReader.Read())
         {
-            user.login = oReader["login"].ToString();
-            user.password = oReader["password"].ToString();
-            user.token = oReader["token"].ToString();
-            user.userId = oReader["user_id"].ToString();
-            user.userName = oReader["name"].ToString();
+            user.Login = oReader["login"].ToString();
+            user.Password = oReader["password"].ToString();
+            user.Token = oReader["token"].ToString();
+            user.UserId = oReader["user_id"].ToString();
+            user.UserName = oReader["name"].ToString();
         }
+
+        // using (var oReader = oCmd.ExecuteReader())
+        // {
+        //     user.Login = oReader["login"].ToString();
+        //     user.Password = oReader["password"].ToString();
+        //     user.Token = oReader["token"].ToString();
+        //     user.UserId = oReader["user_id"].ToString();
+        //     user.UserName = oReader["name"].ToString();
+        // }
 
         myConnection.Close();
 

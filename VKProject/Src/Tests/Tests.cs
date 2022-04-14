@@ -30,16 +30,16 @@ public class Tests : BaseTest
         LoginSteps.Login(1);
         NewsPage.MoveToMyPage();
         var postId = PostApiHelper.CreatePost(1, _post);
-        MyPage.GetCreatorNameFromPost(postId).Should().Be(_user.userId);
+        MyPage.GetCreatorNameFromPost(postId).Should().Be(_user.UserId);
         MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
         _post = TestDataGeneratorService.GetFakePost();
         PostApiHelper.EditPost(1, _post, postId);
         MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
-        MyPage.GetPhotoIdFromPost(postId).Should().Be(AttachmentsConstants.PhotoId);
+        MyPage.GetPhotoIdFromPost(postId).Should().Be($"https://vk.com/{AttachmentsConstants.PhotoId}");
         PostApiHelper.LeaveComment(1, postId, _comment);
-        MyPage.GetCommentCreatorFromPost(postId).Should().Be(_user.userId);
+        MyPage.GetCommentCreatorFromPost(postId).Should().Be(_user.UserId);
         MyPage.LikePost(postId);
-        PostApiHelper.GetLikesFromPost(1, postId).Should().Be(_user.userId);
+        PostApiHelper.GetLikesFromPost(1, postId).Should().Be(_user.UserId);
         PostApiHelper.DeletePost(1, postId);
         MyPage.IsPostVisible(postId).Should().BeFalse();
     }

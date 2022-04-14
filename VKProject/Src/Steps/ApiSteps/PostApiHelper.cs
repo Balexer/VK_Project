@@ -1,4 +1,4 @@
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using RestSharp;
 using VKProject.Constants;
 using VKProject.Models;
@@ -11,9 +11,9 @@ public class PostApiHelper : BaseApiHelper
     public static string CreatePost(int userId, Post post)
     {
         var parameters = $"{BaseParameter(userId)}&{ParameterNames.Message}{post.Text}";
-        dynamic r = JObject.Parse(Client($"{URIConstants.BaseApiUrl}{WallMethods.Post}{parameters}")
+        var postResponse = JsonConvert.DeserializeObject<PostRoot>(Client($"{WallMethods.Post}", parameters)
             .Execute(BaseRequest(Method.POST)).Content);
-        return r.response.post_id;
+        return postResponse.response.post_id.ToString();
     }
 
     public static void EditPost(int userId, Post post, string postId)
@@ -22,7 +22,7 @@ public class PostApiHelper : BaseApiHelper
             $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}" +
             $"&{ParameterNames.Attachments}{AttachmentsConstants.PhotoId}" +
             $"&{ParameterNames.Message}{post.Text}";
-        Client($"{URIConstants.BaseApiUrl}{WallMethods.Edit}{parameters}")
+        Client($"{WallMethods.Edit}", parameters)
             .Execute(BaseRequest(Method.POST));
     }
 
@@ -31,22 +31,22 @@ public class PostApiHelper : BaseApiHelper
         var parameters =
             $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}" +
             $"&{ParameterNames.Message}{comment.Text}";
-        Client($"{URIConstants.BaseApiUrl}{WallMethods.CreateComment}{parameters}")
+        Client($"{WallMethods.CreateComment}", parameters)
             .Execute(BaseRequest(Method.POST));
     }
 
     public static string GetLikesFromPost(int userId, string postId)
     {
         var parameters = $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}";
-        dynamic r = JObject.Parse(Client($"{URIConstants.BaseApiUrl}{WallMethods.GetLikes}{parameters}")
+        var likesResponse = JsonConvert.DeserializeObject<Likes>(Client($"{WallMethods.GetLikes}", parameters)
             .Execute(BaseRequest(Method.POST)).Content);
-        return r.response.users[0].uid;
+        return likesResponse.response.users[0].uid.ToString();
     }
 
     public static void DeletePost(int userId, string postId)
     {
         var parameters = $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}";
-        Client($"{URIConstants.BaseApiUrl}{WallMethods.Delete}{parameters}")
+        Client($"{WallMethods.Delete}", parameters)
             .Execute(BaseRequest(Method.POST));
     }
 }
