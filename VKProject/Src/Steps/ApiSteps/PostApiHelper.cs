@@ -2,6 +2,8 @@ using Newtonsoft.Json;
 using RestSharp;
 using VKProject.Constants;
 using VKProject.Models;
+using VKProject.Models.Responses.Like;
+using VKProject.Models.Responses.Post;
 using VKProject.Steps.ApiSteps.Base;
 
 namespace VKProject.Steps.ApiSteps;
@@ -11,9 +13,9 @@ public class PostApiHelper : BaseApiHelper
     public static string CreatePost(int userId, Post post)
     {
         var parameters = $"{BaseParameter(userId)}&{ParameterNames.Message}{post.Text}";
-        var postResponse = JsonConvert.DeserializeObject<PostRoot>(Client($"{WallMethods.Post}", parameters)
+        var postResponse = JsonConvert.DeserializeObject<PostResponse>(Client($"{WallMethods.Post}", parameters)
             .Execute(BaseRequest(Method.POST)).Content);
-        return postResponse.response.post_id.ToString();
+        return postResponse.Response.Post_id.ToString();
     }
 
     public static void EditPost(int userId, Post post, string postId)
@@ -38,9 +40,9 @@ public class PostApiHelper : BaseApiHelper
     public static string GetLikesFromPost(int userId, string postId)
     {
         var parameters = $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}";
-        var likesResponse = JsonConvert.DeserializeObject<Likes>(Client($"{WallMethods.GetLikes}", parameters)
+        var likesResponse = JsonConvert.DeserializeObject<LikesResponse>(Client($"{WallMethods.GetLikes}", parameters)
             .Execute(BaseRequest(Method.POST)).Content);
-        return likesResponse.response.users[0].uid.ToString();
+        return likesResponse.Response.Users[0].Uid.ToString();
     }
 
     public static void DeletePost(int userId, string postId)
