@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using VKProject.Pages.Base;
+using VKProject.Wrappers;
 
 namespace VKProject.Pages;
 
@@ -11,20 +12,20 @@ public class LoginPage : BasePage
     private static readonly By ContinueButtonSelector = By.ClassName("vkc__Button__title");
 
     private static void ClickContinueButton() =>
-        GetElement(ContinueButtonSelector).Click();
+        new Button(ContinueButtonSelector).Click();
 
     public static void ClickInButton() =>
-        GetElement(InButtonSelector).Click();
+        new Button(InButtonSelector).Click();
 
     public static void SetLogin(string? login)
     {
-        GetElement(LoginSelector).SendKeys(login);
+        new Input(LoginSelector).SendKeys(login);
         ClickContinueButton();
     }
 
     public static void SetPassword(string? password)
     {
-        GetElement(PasswordSelector).SendKeys(password);
+        new Input(PasswordSelector).SendKeys(password);
         ClickContinueButton();
     }
 }

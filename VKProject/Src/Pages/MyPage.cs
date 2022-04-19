@@ -1,6 +1,7 @@
 using OpenQA.Selenium;
 using VKProject.Core.Browser.Service;
 using VKProject.Pages.Base;
+using VKProject.Wrappers;
 
 namespace VKProject.Pages;
 
@@ -16,33 +17,33 @@ public class MyPage : BasePage
     public static string GetCreatorNameFromPost(string postId)
     {
         BrowsersService.Driver.Navigate().Refresh();
-        return GetElement(ReplaceLocator(PostAuthorLocator, postId)).GetAttribute("data-from-id");
+        return new VkElement(ReplaceLocator(PostAuthorLocator, postId)).GetAttribute("data-from-id");
     }
 
     public static string GetTextFromPost(string postId)
     {
         BrowsersService.Driver.Navigate().Refresh();
-        return GetElement(ReplaceLocator(PostTextLocator, postId)).Text;
+        return new VkElement(ReplaceLocator(PostTextLocator, postId)).GetText();
     }
 
     public static string GetCommentCreatorFromPost(string postId)
     {
         BrowsersService.Driver.Navigate().Refresh();
-        return GetElement(ReplaceLocator(PostCommentLocator, postId)).GetAttribute("data-answering-id");
+        return new VkElement(ReplaceLocator(PostCommentLocator, postId)).GetAttribute("data-answering-id");
     }
 
     public static void LikePost(string postId) =>
-        GetElement(ReplaceLocator(PostLikeButtonLocator, postId)).Click();
+        new Button(ReplaceLocator(PostLikeButtonLocator, postId)).Click();
 
     public static string GetPhotoIdFromPost(string postId) =>
-        $"{GetElement(ReplaceLocator(PostPhotoLocator, postId)).GetAttribute("href")}";
+        new VkElement(ReplaceLocator(PostPhotoLocator, postId)).GetAttribute("href");
 
     public static bool IsPostVisible(string postId)
     {
         BrowsersService.Driver.Navigate().Refresh();
         try
         {
-            return GetElement(ReplaceLocator(PostLocator, postId)).Displayed;
+            return new VkElement(ReplaceLocator(PostLocator, postId)).IsDisplayed();
         }
         catch (WebDriverTimeoutException)
         {
