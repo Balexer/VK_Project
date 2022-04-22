@@ -37,12 +37,12 @@ public class PostApiHelper : BaseApiHelper
             .Execute(BaseRequest(Method.POST));
     }
 
-    public static string GetLikesFromPost(int userId, string postId)
+    public static string GetLikesFromPost(int ownerId, int userId, string postId)
     {
-        var parameters = $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}";
+        var parameters = $"{BaseParameter(ownerId)}&{ParameterNames.PostId}{postId}";
         var likesResponse = JsonConvert.DeserializeObject<LikesResponse>(Client($"{WallMethods.GetLikes}", parameters)
             .Execute(BaseRequest(Method.POST)).Content);
-        return likesResponse.Response.Users[0].Uid.ToString();
+        return likesResponse.Response.Users[userId].Uid.ToString();
     }
 
     public static void DeletePost(int userId, string postId)
