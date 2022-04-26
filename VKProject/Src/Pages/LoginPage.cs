@@ -6,7 +6,7 @@ namespace VKProject.Pages;
 
 public class LoginPage : BasePage
 {
-    private static readonly By InButtonSelector = By.ClassName("FlatButton__in");
+    private static readonly By InButtonSelector = By.XPath("//button[contains(@class,'VkIdForm__signInButton')]");
     private static readonly By LoginSelector = By.Name("login");
     private static readonly By PasswordSelector = By.Name("password");
     private static readonly By ContinueButtonSelector = By.ClassName("vkc__Button__title");

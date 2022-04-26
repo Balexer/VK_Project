@@ -7,12 +7,20 @@ namespace VKProject.Pages;
 
 public class MyPage : BasePage
 {
+    private static readonly By ProfileArrowSelector = By.ClassName("TopNavBtn__profileArrow");
+    private static readonly By LogoutButtonSelector = By.Id("top_logout_link");
     private const string PostLocator = "//div[contains(@id,'replace')]";
     private const string PostAuthorLocator = "//a[contains(@data-post-id,'replace')]";
     private const string PostTextLocator = $"{PostLocator}/div[contains(@class,'wall_post_text')]";
     private const string PostPhotoLocator = $"{PostLocator}//a[@aria-label='фотография']";
     private const string PostCommentLocator = $"{PostLocator}//div[@class='replies']//div[contains(@class,'reply')]";
     private const string PostLikeButtonLocator = $"{PostLocator}//div[@data-section-ref='reactions-button-container']";
+
+    public static void Logout()
+    {
+        new Button(ProfileArrowSelector).Click();
+        new Button(LogoutButtonSelector).Click();
+    }
 
     public static string GetCreatorNameFromPost(string postId)
     {
@@ -22,6 +30,14 @@ public class MyPage : BasePage
 
     public static string GetTextFromPost(string postId)
     {
+        try
+        {
+            BrowsersService.Driver.SwitchTo().Alert().Accept();
+        }
+        catch (NoAlertPresentException)
+        {
+        }
+
         BrowsersService.Driver.Navigate().Refresh();
         return new VkElement(ReplaceLocator(PostTextLocator, postId)).GetText();
     }
