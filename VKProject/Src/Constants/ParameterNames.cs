@@ -8,4 +8,6 @@ public class ParameterNames
     public const string Message = "message=";
     public const string Version = "v=";
     public const string Token = "access_token=";
+    public const string Type = "type=";
+    public const string ItemId = "item_id=";
 }

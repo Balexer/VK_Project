@@ -1,4 +1,4 @@
-namespace VKProject.Models.Responses.Like;
+namespace VKProject.Models.Responses.Likes;
 
 public class LikesResponse
 {

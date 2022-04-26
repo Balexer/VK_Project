@@ -1,4 +1,6 @@
+using System;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using NUnit.Framework;
 using VKProject.Constants;
 using VKProject.Core.Browser;
@@ -43,7 +45,7 @@ public class Tests : BaseTest
         PostApiHelper.LeaveComment(0, postId, _comment);
         MyPage.GetCommentCreatorFromPost(postId).Should().Be(_user.UserId);
         MyPage.LikePost(postId);
-        PostApiHelper.GetLikesFromPost(0, 0, postId).Should().Be(_user.UserId);
+        LikesApiHelper.GetLikes(0, postId).Should().Contain(Convert.ToInt32(_user.UserId));
         PostApiHelper.DeletePost(0, postId);
         MyPage.IsPostVisible(postId).Should().BeFalse();
     }
@@ -62,7 +64,10 @@ public class Tests : BaseTest
         BrowsersService.Driver.Navigate().GoToUrl(url);
         MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
         MyPage.LikePost(postId);
-        PostApiHelper.GetLikesFromPost(0, 0, postId).Should().Be(_secondUser.UserId);
-        PostApiHelper.GetLikesFromPost(0, 1, postId).Should().Be(_user.UserId);
+        using (new AssertionScope())
+        {
+            LikesApiHelper.GetLikes(0, postId).Should().Contain(Convert.ToInt32(_user.UserId));
+            LikesApiHelper.GetLikes(0, postId).Should().Contain(Convert.ToInt32(_secondUser.UserId));
+        }
     }
 }
