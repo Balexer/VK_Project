@@ -13,7 +13,4 @@ public class VkElement : BaseElement
 
     public string GetText() =>
         Element.Text;
-
-    public bool IsDisplayed() =>
-        Element.Displayed;
 }

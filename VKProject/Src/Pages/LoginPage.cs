@@ -7,6 +7,7 @@ namespace VKProject.Pages;
 public class LoginPage : BasePage
 {
     private static readonly By InButtonSelector = By.XPath("//button[contains(@class,'VkIdForm__signInButton')]");
+    private static readonly By QuickInButton = By.ClassName("quick_login_button");
     private static readonly By LoginSelector = By.Name("login");
     private static readonly By PasswordSelector = By.Name("password");
     private static readonly By ContinueButtonSelector = By.ClassName("vkc__Button__title");
@@ -28,4 +29,7 @@ public class LoginPage : BasePage
         new Input(PasswordSelector).SendKeys(password);
         ClickContinueButton();
     }
+
+    public static bool IsQuickInButtonVisible() =>
+        new Button(QuickInButton).IsDisplayed();
 }

@@ -57,13 +57,6 @@ public class MyPage : BasePage
     public static bool IsPostVisible(string postId)
     {
         BrowsersService.Driver.Navigate().Refresh();
-        try
-        {
-            return new VkElement(ReplaceLocator(PostLocator, postId)).IsDisplayed();
-        }
-        catch (WebDriverTimeoutException)
-        {
-            return false;
-        }
+        return new VkElement(ReplaceLocator(PostLocator, postId)).IsDisplayed();
     }
 }
