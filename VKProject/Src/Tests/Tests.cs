@@ -70,4 +70,19 @@ public class Tests : BaseTest
             LikesApiHelper.GetLikes(0, postId).Should().Contain(Convert.ToInt32(_secondUser.UserId));
         }
     }
+
+    [Test]
+    public void TC3()
+    {
+        LoginSteps.Login(0);
+        NewsPage.MoveToMyPage();
+        var postId = PostApiHelper.CreatePost(0, _post);
+        var url = BrowsersService.Driver.Url;
+        MyPage.Logout();
+        BrowsersService.Driver.Navigate().GoToUrl(BrowserSettings.Url);
+        BrowsersService.Driver.Navigate().GoToUrl(url);
+        MyPage.IsPostVisible(postId).Should().BeTrue();
+        MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
+        LoginPage.IsQuickInButtonVisible().Should().BeTrue();
+    }
 }

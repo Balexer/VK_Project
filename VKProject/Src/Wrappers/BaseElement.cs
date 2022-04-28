@@ -14,4 +14,16 @@ public abstract class BaseElement
         BrowsersService.Waiters.WaitForVisibility(locator);
 
     protected IWebElement Element => GetElement(_by);
+
+    public bool IsDisplayed()
+    {
+        try
+        {
+            return Element.Displayed;
+        }
+        catch (WebDriverTimeoutException)
+        {
+            return false;
+        }
+    }
 }
