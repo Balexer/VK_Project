@@ -39,7 +39,7 @@ public class Tests : BaseTest
         MyPage.GetCreatorNameFromPost(postId).Should().Be(_user.UserId);
         MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
         _post = TestDataGeneratorService.GetFakePost();
-        PostApiHelper.EditPost(0, _post, postId);
+        PostApiHelper.EditPost(0, _post, postId, AttachmentsConstants.PhotoId);
         MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
         MyPage.GetPhotoIdFromPost(postId).Should().Be($"https://vk.com/{AttachmentsConstants.PhotoId}");
         PostApiHelper.LeaveComment(0, postId, _comment);
@@ -84,5 +84,23 @@ public class Tests : BaseTest
         MyPage.IsPostVisible(postId).Should().BeTrue();
         MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
         LoginPage.IsQuickInButtonVisible().Should().BeTrue();
+    }
+
+    [Test]
+    public void TC4()
+    {
+        LoginSteps.Login(1);
+        NewsPage.MoveToMyPage();
+        var postId = PostApiHelper.CreatePost(1, _post);
+        _post = TestDataGeneratorService.GetFakePost();
+        PostApiHelper.EditPost(1, _post, postId, AttachmentsConstants.DocId);
+        MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
+        MyPage.GetDocTitleFromPost(postId).Should().Be("file.txt");
+        PostApiHelper.LeaveComment(1, postId, _comment);
+        MyPage.GetCommentCreatorFromPost(postId).Should().Be(_secondUser.UserId);
+        MyPage.LikePost(postId);
+        LikesApiHelper.GetLikes(1, postId).Should().Contain(Convert.ToInt32(_secondUser.UserId));
+        PostApiHelper.DeletePost(1, postId);
+        MyPage.IsPostVisible(postId).Should().BeFalse();
     }
 }

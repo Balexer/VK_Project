@@ -15,6 +15,7 @@ public class MyPage : BasePage
     private const string PostPhotoLocator = $"{PostLocator}//a[@aria-label='фотография']";
     private const string PostCommentLocator = $"{PostLocator}//div[@class='replies']//div[contains(@class,'reply')]";
     private const string PostLikeButtonLocator = $"{PostLocator}//div[@data-section-ref='reactions-button-container']";
+    private const string PostDocLocator = $"{PostLocator}/a[@class='page_doc_title']";
 
     public static void Logout()
     {
@@ -53,6 +54,9 @@ public class MyPage : BasePage
 
     public static string GetPhotoIdFromPost(string postId) =>
         new VkElement(ReplaceLocator(PostPhotoLocator, postId)).GetAttribute("href");
+
+    public static string GetDocTitleFromPost(string postId) =>
+        new VkElement(ReplaceLocator(PostDocLocator, postId)).GetText();
 
     public static bool IsPostVisible(string postId)
     {

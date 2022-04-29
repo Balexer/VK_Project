@@ -17,11 +17,11 @@ public class PostApiHelper : BaseApiHelper
         return postResponse.Response.Post_id.ToString();
     }
 
-    public static void EditPost(int userId, Post post, string postId)
+    public static void EditPost(int userId, Post post, string postId, string attachments)
     {
         var parameters =
             $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}" +
-            $"&{ParameterNames.Attachments}{AttachmentsConstants.PhotoId}" +
+            $"&{ParameterNames.Attachments}{attachments}" +
             $"&{ParameterNames.Message}{post.Text}";
         Client($"{WallMethods.Edit}", parameters)
             .Execute(BaseRequest(Method.POST));
