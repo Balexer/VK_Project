@@ -16,6 +16,7 @@ namespace VKProject.Tests;
 
 public class Tests : BaseTest
 {
+    private const string FileName = "file.txt";
     private Post _post;
     private Comment _comment;
     private User _user;
@@ -95,7 +96,7 @@ public class Tests : BaseTest
         _post = TestDataGeneratorService.GetFakePost();
         PostApiHelper.EditPost(1, _post, postId, AttachmentsConstants.DocId);
         MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
-        MyPage.GetDocTitleFromPost(postId).Should().Be("file.txt");
+        MyPage.GetDocTitleFromPost(postId).Should().Be(FileName);
         PostApiHelper.LeaveComment(1, postId, _comment);
         MyPage.GetCommentCreatorFromPost(postId).Should().Be(_secondUser.UserId);
         MyPage.LikePost(postId);
