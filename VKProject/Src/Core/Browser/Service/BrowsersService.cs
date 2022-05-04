@@ -2,13 +2,13 @@ using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using VKProject.Utils;
+using static VKProject.Constants.BrowserNames;
 
 namespace VKProject.Core.Browser.Service;
 
 public static class BrowsersService
 {
-    private const string Chrome = "chrome";
-    public static IWebDriver Driver { get; set; }
+    [ThreadStatic] public static IWebDriver Driver;
 
     public static Waiters Waiters => new(Driver, BrowserSettings.Timeout);
 

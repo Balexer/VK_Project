@@ -3,7 +3,7 @@ using VKProject.Utils;
 
 namespace VKProject.Core.Browser;
 
-public class BrowserSettings
+public static class BrowserSettings
 {
     public static string Url => ReadProperties.Configuration[nameof(Url)];
     public static string Browser => ReadProperties.Configuration[nameof(Browser)];

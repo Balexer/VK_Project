@@ -12,7 +12,17 @@ public class PostApiHelper : BaseApiHelper
     public static string CreatePost(int userId, Post post)
     {
         var parameters = $"{BaseParameter(userId)}&{ParameterNames.Message}{post.Text}";
-        var postResponse = JsonConvert.DeserializeObject<PostResponse>(Client($"{WallMethods.Post}", parameters)
+        var postResponse = JsonConvert.DeserializeObject<PostResponse>(Client(WallMethods.Post, parameters)
+            .Execute(BaseRequest(Method.POST)).Content);
+        return postResponse.Response.Post_id.ToString();
+    }
+
+    public static string CreatePost(int userId, Post post, string attachments)
+    {
+        var parameters = $"{BaseParameter(userId)}" +
+                         $"&{ParameterNames.Message}{post.Text}" +
+                         $"&{ParameterNames.Attachments}{attachments}";
+        var postResponse = JsonConvert.DeserializeObject<PostResponse>(Client(WallMethods.Post, parameters)
             .Execute(BaseRequest(Method.POST)).Content);
         return postResponse.Response.Post_id.ToString();
     }
@@ -20,10 +30,11 @@ public class PostApiHelper : BaseApiHelper
     public static void EditPost(int userId, Post post, string postId, string attachments)
     {
         var parameters =
-            $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}" +
+            $"{BaseParameter(userId)}" +
+            $"&{ParameterNames.PostId}{postId}" +
             $"&{ParameterNames.Attachments}{attachments}" +
             $"&{ParameterNames.Message}{post.Text}";
-        Client($"{WallMethods.Edit}", parameters)
+        Client(WallMethods.Edit, parameters)
             .Execute(BaseRequest(Method.POST));
     }
 
@@ -32,14 +43,14 @@ public class PostApiHelper : BaseApiHelper
         var parameters =
             $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}" +
             $"&{ParameterNames.Message}{comment.Text}";
-        Client($"{WallMethods.CreateComment}", parameters)
+        Client(WallMethods.CreateComment, parameters)
             .Execute(BaseRequest(Method.POST));
     }
 
     public static void DeletePost(int userId, string postId)
     {
         var parameters = $"{BaseParameter(userId)}&{ParameterNames.PostId}{postId}";
-        Client($"{WallMethods.Delete}", parameters)
+        Client(WallMethods.Delete, parameters)
             .Execute(BaseRequest(Method.POST));
     }
 }

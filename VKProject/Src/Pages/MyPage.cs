@@ -7,26 +7,18 @@ namespace VKProject.Pages;
 
 public class MyPage : BasePage
 {
-    private static readonly By ProfileArrowSelector = By.ClassName("TopNavBtn__profileArrow");
-    private static readonly By LogoutButtonSelector = By.Id("top_logout_link");
-    private const string PostLocator = "//div[contains(@id,'replace')]";
-    private const string PostAuthorLocator = "//a[contains(@data-post-id,'replace')]";
-    private const string PostTextLocator = $"{PostLocator}/div[contains(@class,'wall_post_text')]";
-    private const string PostPhotoLocator = $"{PostLocator}//a[@aria-label='фотография']";
-    private const string PostCommentLocator = $"{PostLocator}//div[@class='replies']//div[contains(@class,'reply')]";
-    private const string PostLikeButtonLocator = $"{PostLocator}//div[@data-section-ref='reactions-button-container']";
-    private const string PostDocLocator = $"{PostLocator}/a[@class='page_doc_title']";
-
-    public static void Logout()
-    {
-        new Button(ProfileArrowSelector).Click();
-        new Button(LogoutButtonSelector).Click();
-    }
+    private const string PostLocator = "//div[contains(@id,'{0}')]";
+    private const string PostAuthorLocator = "//a[contains(@data-post-id,'{0}')]";
+    private const string PostTextLocator = $"{PostLocator}/*[contains(@class,'wall_post_text')]";
+    private const string PostPhotoLocator = $"{PostLocator}//*[@aria-label='photo']";
+    private const string PostCommentLocator = $"{PostLocator}//*[@class='replies']//div[contains(@class,'reply')]";
+    private const string PostLikeButtonLocator = $"{PostLocator}//*[@data-section-ref='reactions-button-container']";
+    private const string PostDocLocator = $"{PostLocator}/*[@class='page_doc_title']";
 
     public static string GetCreatorNameFromPost(string postId)
     {
         BrowsersService.Driver.Navigate().Refresh();
-        return new VkElement(ReplaceLocator(PostAuthorLocator, postId)).GetAttribute("data-from-id");
+        return new VkElement(By.XPath(string.Format(PostAuthorLocator, postId))).GetAttribute("data-from-id");
     }
 
     public static string GetTextFromPost(string postId)
@@ -40,27 +32,27 @@ public class MyPage : BasePage
         }
 
         BrowsersService.Driver.Navigate().Refresh();
-        return new VkElement(ReplaceLocator(PostTextLocator, postId)).GetText();
+        return new VkElement(By.XPath(string.Format(PostTextLocator, postId))).GetText();
     }
 
     public static string GetCommentCreatorFromPost(string postId)
     {
         BrowsersService.Driver.Navigate().Refresh();
-        return new VkElement(ReplaceLocator(PostCommentLocator, postId)).GetAttribute("data-answering-id");
+        return new VkElement(By.XPath(string.Format(PostCommentLocator, postId))).GetAttribute("data-answering-id");
     }
 
     public static void LikePost(string postId) =>
-        new Button(ReplaceLocator(PostLikeButtonLocator, postId)).Click();
+        new Button(By.XPath(string.Format(PostLikeButtonLocator, postId))).Click();
 
     public static string GetPhotoIdFromPost(string postId) =>
-        new VkElement(ReplaceLocator(PostPhotoLocator, postId)).GetAttribute("href");
+        new VkElement(By.XPath(string.Format(PostPhotoLocator, postId))).GetAttribute("href");
 
     public static string GetDocTitleFromPost(string postId) =>
-        new VkElement(ReplaceLocator(PostDocLocator, postId)).GetText();
+        new VkElement(By.XPath(string.Format(PostDocLocator, postId))).GetText();
 
     public static bool IsPostVisible(string postId)
     {
         BrowsersService.Driver.Navigate().Refresh();
-        return new VkElement(ReplaceLocator(PostLocator, postId)).IsDisplayed();
+        return new VkElement(By.XPath(string.Format(PostLocator, postId))).IsDisplayed();
     }
 }

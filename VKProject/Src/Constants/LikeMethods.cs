@@ -1,6 +1,6 @@
 namespace VKProject.Constants;
 
-public class LikeMethods
+public static class LikeMethods
 {
     public const string GetLikes = "likes.getList";
 }
