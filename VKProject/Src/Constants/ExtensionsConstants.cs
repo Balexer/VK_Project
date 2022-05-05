@@ -1,6 +1,6 @@
 namespace VKProject.Constants;
 
-public class ExtensionsConstants
+public static class ExtensionsConstants
 {
     public const string Json = "json";
 }

@@ -7,6 +7,7 @@ using VKProject.Core.Browser;
 using VKProject.Core.Browser.Service;
 using VKProject.Models;
 using VKProject.Pages;
+using VKProject.Pages.Base;
 using VKProject.Steps;
 using VKProject.Steps.ApiSteps;
 using VKProject.Tests.BaseUiTest;
@@ -35,7 +36,7 @@ public class Tests : BaseTest
     public void TC1()
     {
         LoginSteps.Login(0);
-        NewsPage.MoveToMyPage();
+        BasePage.MoveToMyPage();
         var postId = PostApiHelper.CreatePost(0, _post);
         MyPage.GetCreatorNameFromPost(postId).Should().Be(_user.UserId);
         MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
@@ -55,11 +56,11 @@ public class Tests : BaseTest
     public void TC2()
     {
         LoginSteps.Login(0);
-        NewsPage.MoveToMyPage();
+        BasePage.MoveToMyPage();
         var postId = PostApiHelper.CreatePost(0, _post);
         var url = BrowsersService.Driver.Url;
         MyPage.LikePost(postId);
-        MyPage.Logout();
+        BasePage.Logout();
         BrowsersService.Driver.Navigate().GoToUrl(BrowserSettings.Url);
         LoginSteps.Login(1);
         BrowsersService.Driver.Navigate().GoToUrl(url);
@@ -76,10 +77,10 @@ public class Tests : BaseTest
     public void TC3()
     {
         LoginSteps.Login(0);
-        NewsPage.MoveToMyPage();
+        BasePage.MoveToMyPage();
         var postId = PostApiHelper.CreatePost(0, _post);
         var url = BrowsersService.Driver.Url;
-        MyPage.Logout();
+        BasePage.Logout();
         BrowsersService.Driver.Navigate().GoToUrl(BrowserSettings.Url);
         BrowsersService.Driver.Navigate().GoToUrl(url);
         MyPage.IsPostVisible(postId).Should().BeTrue();
@@ -91,7 +92,7 @@ public class Tests : BaseTest
     public void TC4()
     {
         LoginSteps.Login(1);
-        NewsPage.MoveToMyPage();
+        BasePage.MoveToMyPage();
         var postId = PostApiHelper.CreatePost(1, _post);
         _post = TestDataGeneratorService.GetFakePost();
         PostApiHelper.EditPost(1, _post, postId, AttachmentsConstants.DocId);
@@ -103,5 +104,18 @@ public class Tests : BaseTest
         LikesApiHelper.GetLikes(1, postId).Should().Contain(Convert.ToInt32(_secondUser.UserId));
         PostApiHelper.DeletePost(1, postId);
         MyPage.IsPostVisible(postId).Should().BeFalse();
+    }
+
+    [Test]
+    public void TC5()
+    {
+        LoginSteps.Login(1);
+        BasePage.MoveToMyPage();
+        var postId = PostApiHelper.CreatePost(1, _post, AttachmentsConstants.PhotoId);
+        using (new AssertionScope())
+        {
+            MyPage.GetTextFromPost(postId).Should().Be(_post.Text);
+            MyPage.GetPhotoIdFromPost(postId).Should().Be($"https://vk.com/{AttachmentsConstants.PhotoId}");
+        }
     }
 }

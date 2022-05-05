@@ -1,6 +1,6 @@
 namespace VKProject.Constants;
 
-public class ParameterNames
+public static class ParameterNames
 {
     public const string OwnerId = "owner_id=";
     public const string Attachments = "attachments=";

@@ -1,6 +1,6 @@
 namespace VKProject.Constants;
 
-public class WallMethods
+public static class WallMethods
 {
     public const string Post = "wall.post";
     public const string Edit = "wall.edit";

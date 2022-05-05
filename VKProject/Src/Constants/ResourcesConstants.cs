@@ -1,6 +1,6 @@
 namespace VKProject.Constants;
 
-public class ResourcesConstants
+public static class ResourcesConstants
 {
     public const string AppSettings = "appsettings";
 }

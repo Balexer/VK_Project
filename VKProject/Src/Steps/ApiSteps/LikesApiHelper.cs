@@ -14,7 +14,7 @@ public class LikesApiHelper : BaseApiHelper
         var parameters = $"{BaseParameter(userId)}" +
                          $"&{ParameterNames.Type}post" +
                          $"&{ParameterNames.ItemId}{postId}";
-        var likesResponse = JsonConvert.DeserializeObject<LikesResponse>(Client($"{LikeMethods.GetLikes}", parameters)
+        var likesResponse = JsonConvert.DeserializeObject<LikesResponse>(Client(LikeMethods.GetLikes, parameters)
             .Execute(BaseRequest(Method.POST)).Content);
         return likesResponse.Response.Items;
     }
